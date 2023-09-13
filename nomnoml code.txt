@@ -1,0 +1,64 @@
+//Need to add:
+//Funtions
+//ActorBase States
+
+//Objects ------------------------
+
+//NPC Data
+[NPC Data Scriptable Object|
+public NPCData Guide;
+public NPCData Merchant;
+public NPCData etc....
+]
+
+[NPC Data|
+int ID
+int Health; 
+Room RoomLocation; 
+]
+
+[Other Terraria Systems]
+
+//NPC Manager
+[NPC Manager]
+[NPC List]
+
+//ActorBase
+[ActorBase]
+[ActorBase StateMachine]
+
+//NPC
+[NPC]
+[NPC States] 
+[Tradable Items List]
+
+//Interactions with world
+[NPC Dialogue Button]
+[NPC Dialogue Window]
+
+//Associations --------------------
+
+//NPC Data
+[NPC Data Scriptable Object] - [NPC Data]
+
+//NPC Manager
+[NPC Data Scriptable Object] -- [NPC Manager]
+[NPC Manager] - [NPC List]
+
+
+//ActorBase
+[ActorBase] - [ActorBase StateMachine]
+
+//NPC
+[NPC List] - [NPC]
+[ActorBase] - [NPC]
+[NPC] - [NPC States]
+[NPC] - [Tradable Items List]
+
+//Interactions with world
+[Other Terraria Systems] Triggers -   [NPC Dialogue Button]
+
+
+
+
+
