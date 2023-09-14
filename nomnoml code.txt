@@ -13,12 +13,16 @@ public noiseMap seed;
 //Generate Biome
 [BiomeGenerator |
 	void ChangeOneRandomBlock(RandomLocation) {
-    	IsThisValid() {
-        	GiveBlockTileProperty()
-			CheckAroundBlockForTerrainType() {
-				
-            }
-		} else { Return; }
+    	if (IsThisValidTerrainType()) {
+        	AddTileToBiome();
+        	CheckAroundBlockForTerrainType();
+    	}
+	}
+
+	bool IsThisValidTerrainType() {
+    	if (allTiles In Biome <= MaxBiomeSize && Match TerrainType) {
+        	return true;
+    	} return false;
 ]
 
 //Biome Cluster aan tile
@@ -26,9 +30,18 @@ public noiseMap seed;
 	TerrainType: property;
 	List<Tile> allTiles;
     MaxBiomeSize: property;
+	Name: String;
 ]-:>[Biome |
-	
+    TerrainType: Snowy
+    List<Tile> allTiles;
+    MaxBiomeSize: 100;
+    
 ]
+
+[BiomeGenerator] -> [Biome]
+[Biome] -> [Tile]
+[Tile] --:> [ITerrainType]
+[Biome] --:> [ITerrainType]
 
 //een Block
 [Tile |
@@ -40,7 +53,7 @@ public noiseMap seed;
 ]
 
 //Forest, Desert, Taiga, Snowy
-[TerrainType |
+[ITerrainType |
 	Folliage: Bool;
     FolliageChangeAmount;
     CanSpawnTree: Bool;
