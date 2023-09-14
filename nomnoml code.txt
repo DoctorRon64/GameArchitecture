@@ -1,11 +1,5 @@
-//Need to add:
-//Funtions
-//ActorBase States
-
+[Terraria NPC System - Ivar|
 //Objects ------------------------
-
-//UI
-[UI]
 
 //Interfaces
 [IDamagable|
@@ -25,30 +19,49 @@ public NPCData etc....
 public int Id { get: private set }
 public int Happiness { get: private set }
 public Vector2 RoomLocation { get: private set }
-public Iets RoomRequirements { get: private set }
+public Room RoomRequirements { get: private set }
 ]
 
 //NPC Manager
 [NPCManager|
-
 private List<NPC> = new List<NPC>();
 private void Initialise()
-private CheckIfShouldSpawnNPC(NPC npc);
+private bool CheckIfShouldSpawnNPC(NPC npc);
 ]
 
 //ActorBase
 [ActorBase|
 public virtual void MoveTo()
-
-private StateMacine MovementState
+private StateMachine MovementState
 ]
 
 //NPC
 [NPC|
-private CheckIfRoomIsAvailable()
+private int id { get: set: }
+private int health { get: set: }
+private int happiness { get: set: }
+private Vector2 roomLocation { get: set: }
+private List<Item> TradableItemsList = new List<Item>()
+
+public NPC(int _id, int _health, int _happiness, Vector2 roomLocation)
+private bool CheckIfRoomIsAvailable()
+private void ChangeState();
 ]
-[NPCStates] 
-[TradableItemsList]
+
+//NPCStates 
+[BaseState|
+protected GameObject ownerGO
+protected StateMachine owner
+public void SetOwner(StateMachine owner)
+public virtual void OnAwake()
+public abstract void OnStart()
+public abstract void OnUPS()
+public abstract void OnExit()
+]
+
+[NPCIdleState]
+[NPCAttackState]
+[NPCTradingState]
 
 //Interactions with world
 [NPCDialogueButton]
@@ -58,24 +71,31 @@ private CheckIfRoomIsAvailable()
 //Associations --------------------
 
 //NPC Data
-[NPCDataScriptableObject] - [NPCData]
+[NPCDataScriptableObject] +- [NPCData]
 
 //NPC Manager
 [NPCDataScriptableObject] <-- [NPCManager]
 
 //ActorBase
-[IDamagable] <:-- [ActorBase]
+[IDamagable] <:- [ActorBase]
 
 //NPC
-[ActorBase] <:-- [NPC]
-[NPCManager] --> [NPC]
-[NPC] - [NPCStates]
-[NPC] - [TradableItemsList]
+[NPCManager] <--> [NPC]
+[ActorBase] <:- [NPC]
+[NPCIdleState] - [NPC] 
+[NPCAttackState] - [NPC] 
+[NPCTradingState] - [NPC] 
+
+//NPCStates
+[BaseState] <:- [NPCIdleState]
+[BaseState] <:- [NPCAttackState]
+[BaseState] <:- [NPCTradingState]
 
 //Interactions with world
-[Player] Triggers - [NPCDialogueButton]
-[NPCDialogueButton] - [NPCDialogueWindow]
-[NPCDialogueWindow] - [UI]
-
+[Player] Triggers -> [NPCDialogueButton]
+[NPCDialogueButton] -> [NPCDialogueWindow]
+[NPCManager] <-- [NPCDialogueButton]
+[NPC] -- [NPCDialogueWindow]
+]
 
 
