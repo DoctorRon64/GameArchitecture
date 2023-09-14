@@ -1,4 +1,3 @@
-Philip
 //TerrainGenerator
 [GameManager | 
 Void Awake() or Start()
