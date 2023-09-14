@@ -1,3 +1,79 @@
+Philip
+//TerrainGenerator
+[GameManager | 
+Void Awake() or Start()
+]->
+[TerrariaBiomesGenerator (Philip) |
+
+[TerrainGenerator ScriptableObject |
+public TileGrid;
+public Dictionary<Tile, Location> allTiles;
+public Dictionary<Biome, Location> allBiomes;
+public noiseMap seed;
+]<->
+
+//Generate Biome
+[BiomeGenerator |
+	void ChangeOneRandomBlock(RandomLocation) {
+    	if (ValidTerrainType(RandomLocation) && 
+        allBiomes(RandomLocation) <= allBiomes(RandomLocation).maxBiomeSize {
+        	CheckAroundBlock();
+			if (ValidTerrainType(NewLocation){
+            	RedoSteps;
+] ->
+
+[ValidTerrainType |
+	bool IsThisValidTerrainType(RandomLocation) {
+    	if (allTiles.ContainsKey(RandomLocation) ITerrainType != air) {
+        	return true;
+    	} return false;
+]
+
+//Biome Cluster aan tile
+[ BiomeBase |
+	TerrainType: property;
+	List<Tile> allTiles;
+    MaxBiomeSize: property;
+	Name: String;
+]-:>[Biome |
+    TerrainType: Snowy
+    List<Tile> allTiles;
+    MaxBiomeSize: 100;
+]
+
+//een Block
+[TileBase |
+    TerrainType: properties;
+	HasOuterSkin : Bool;
+    OuterSkin: Position;
+    CanHaveOuterSkin: Bool;
+    CanFolliageBePlaced: Bool;
+]-:>
+[Tile |
+	TerrainType: Snowy;
+    HasOuterSkin: True;
+    OuterSkin: Top;
+    CanHaveOuterSkin: True;
+    CanFolliageBePlaced: True;
+]
+
+//Forest, Desert, Taiga, Snowy
+[ITerrainType |
+	Folliage: Bool;
+    FolliageChangeAmount;
+    CanSpawnTree: Bool;
+    Name: String;
+]
+
+[ValidTerrainType] -> [ITerrainType]
+[ValidTerrainType] -> [Biome]
+[BiomeGenerator] BiomeAmount*-> [Biome]
+[Biome] -> [Tile]
+[Tile] --:> [ITerrainType]
+[Biome] --:> [ITerrainType]
+] 
+
+
 [Terraria NPC System - Ivar|
 //Objects ------------------------
 
@@ -97,5 +173,4 @@ public abstract void OnExit()
 [NPCManager] <-- [NPCDialogueButton]
 [NPC] -- [NPCDialogueWindow]
 ]
-
 
