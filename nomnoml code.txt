@@ -1,0 +1,47 @@
+//TerrainGenerator
+[GameManager | 
+Void Awake()
+]->
+
+[TerrainGenerator |
+public TileGrid;
+public Dictionary<Tile, Location> allBlocks;
+public Dictionary<Biome, Location> allBiomes;
+public noiseMap seed;
+]<->
+
+//Generate Biome
+[BiomeGenerator |
+	void ChangeOneRandomBlock(RandomLocation) {
+    	IsThisValid() {
+        	GiveBlockTileProperty()
+			CheckAroundBlockForTerrainType() {
+				
+            }
+		} else { Return; }
+]
+
+//Biome Cluster aan tile
+[ BiomeBase |
+	TerrainType: property;
+	List<Tile> allTiles;
+    MaxBiomeSize: property;
+]-:>[Biome |
+	
+]
+
+//een Block
+[Tile |
+    TerrainType: properties;
+	HasOuterSkin : Bool;
+    OuterSkin: Position;
+    CanHaveOuterSkin: Bool;
+    CanFolliageBePlace: Bool;
+]
+
+//Forest, Desert, Taiga, Snowy
+[TerrainType |
+	Folliage: Bool;
+    FolliageChangeAmount;
+    CanSpawnTree: Bool;
+]
