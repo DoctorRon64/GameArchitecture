@@ -1,11 +1,12 @@
 //TerrainGenerator
 [GameManager | 
-Void Awake()
+Void Awake() or Start()
 ]->
+[TerrariaBiomesGenerator (Philip) |
 
-[TerrainGenerator |
+[TerrainGenerator ScriptableObject |
 public TileGrid;
-public Dictionary<Tile, Location> allBlocks;
+public Dictionary<Tile, Location> allTiles;
 public Dictionary<Biome, Location> allBiomes;
 public noiseMap seed;
 ]<->
@@ -13,14 +14,16 @@ public noiseMap seed;
 //Generate Biome
 [BiomeGenerator |
 	void ChangeOneRandomBlock(RandomLocation) {
-    	if (IsThisValidTerrainType()) {
-        	AddTileToBiome();
-        	CheckAroundBlockForTerrainType();
-    	}
-	}
+    	if (ValidTerrainType(RandomLocation) && 
+        allBiomes(RandomLocation) <= allBiomes(RandomLocation).maxBiomeSize {
+        	CheckAroundBlock();
+			if (ValidTerrainType(NewLocation){
+            	RedoSteps;
+] ->
 
-	bool IsThisValidTerrainType() {
-    	if (allTiles In Biome <= MaxBiomeSize && Match TerrainType) {
+[ValidTerrainType |
+	bool IsThisValidTerrainType(RandomLocation) {
+    	if (allTiles.ContainsKey(RandomLocation) ITerrainType != air) {
         	return true;
     	} return false;
 ]
@@ -35,21 +38,22 @@ public noiseMap seed;
     TerrainType: Snowy
     List<Tile> allTiles;
     MaxBiomeSize: 100;
-    
 ]
 
-[BiomeGenerator] -> [Biome]
-[Biome] -> [Tile]
-[Tile] --:> [ITerrainType]
-[Biome] --:> [ITerrainType]
-
 //een Block
-[Tile |
+[TileBase |
     TerrainType: properties;
 	HasOuterSkin : Bool;
     OuterSkin: Position;
     CanHaveOuterSkin: Bool;
-    CanFolliageBePlace: Bool;
+    CanFolliageBePlaced: Bool;
+]-:>
+[Tile |
+	TerrainType: Snowy;
+    HasOuterSkin: True;
+    OuterSkin: Top;
+    CanHaveOuterSkin: True;
+    CanFolliageBePlaced: True;
 ]
 
 //Forest, Desert, Taiga, Snowy
@@ -57,4 +61,13 @@ public noiseMap seed;
 	Folliage: Bool;
     FolliageChangeAmount;
     CanSpawnTree: Bool;
+    Name: String;
 ]
+
+[ValidTerrainType] -> [ITerrainType]
+[ValidTerrainType] -> [Biome]
+[BiomeGenerator] BiomeAmount*-> [Biome]
+[Biome] -> [Tile]
+[Tile] --:> [ITerrainType]
+[Biome] --:> [ITerrainType]
+] 
