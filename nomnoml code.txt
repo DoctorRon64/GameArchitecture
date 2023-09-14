@@ -4,61 +4,78 @@
 
 //Objects ------------------------
 
+//UI
+[UI]
+
+//Interfaces
+[IDamagable|
+int Health { get: set }
+void TakeDamage();
+void Die();
+]
+
 //NPC Data
-[NPC Data Scriptable Object|
+[NPCDataScriptableObject|
 public NPCData Guide;
 public NPCData Merchant;
 public NPCData etc....
 ]
 
-[NPC Data|
-int ID
-int Health; 
-Room RoomLocation; 
+[NPCData|
+public int Id { get: private set }
+public int Happiness { get: private set }
+public Vector2 RoomLocation { get: private set }
+public Iets RoomRequirements { get: private set }
 ]
 
-[Other Terraria Systems]
-
 //NPC Manager
-[NPC Manager]
-[NPC List]
+[NPCManager|
+
+private List<NPC> = new List<NPC>();
+private void Initialise()
+private CheckIfShouldSpawnNPC(NPC npc);
+]
 
 //ActorBase
-[ActorBase]
-[ActorBase StateMachine]
+[ActorBase|
+public virtual void MoveTo()
+
+private StateMacine MovementState
+]
 
 //NPC
-[NPC]
-[NPC States] 
-[Tradable Items List]
+[NPC|
+private CheckIfRoomIsAvailable()
+]
+[NPCStates] 
+[TradableItemsList]
 
 //Interactions with world
-[NPC Dialogue Button]
-[NPC Dialogue Window]
+[NPCDialogueButton]
+[NPCDialogueWindow]
+[Player]
 
 //Associations --------------------
 
 //NPC Data
-[NPC Data Scriptable Object] - [NPC Data]
+[NPCDataScriptableObject] - [NPCData]
 
 //NPC Manager
-[NPC Data Scriptable Object] -- [NPC Manager]
-[NPC Manager] - [NPC List]
-
+[NPCDataScriptableObject] <-- [NPCManager]
 
 //ActorBase
-[ActorBase] - [ActorBase StateMachine]
+[IDamagable] <:-- [ActorBase]
 
 //NPC
-[NPC List] - [NPC]
-[ActorBase] - [NPC]
-[NPC] - [NPC States]
-[NPC] - [Tradable Items List]
+[ActorBase] <:-- [NPC]
+[NPCManager] --> [NPC]
+[NPC] - [NPCStates]
+[NPC] - [TradableItemsList]
 
 //Interactions with world
-[Other Terraria Systems] Triggers -   [NPC Dialogue Button]
-
-
+[Player] Triggers - [NPCDialogueButton]
+[NPCDialogueButton] - [NPCDialogueWindow]
+[NPCDialogueWindow] - [UI]
 
 
 
